@@ -199,21 +199,18 @@ Explain each step to the kid in one sentence as you go.
          - id: deployment
            uses: actions/deploy-pages@v5
    ```
-10. **Save it** as its own commit, with a message like "Set up the website" (`skills/devops/SKILL.md`,
-    job 4).
-11. **Go back to `skills/plan-a-feature/SKILL.md`, Part 4,** and build the planned feature as the
-    first app. Make a folder `src/apps/<app-name>/` with an `App.jsx` and an `about.js`:
-    ```js
-    export default {
-      name: 'Space Quiz',
-      emoji: '🚀',
-      description: 'Test what you know about robots in space.',
-      madeBy: '<first name>',
-    }
-    ```
+10. **Delete this skill.** Remove the `skills/start-the-website/` folder, and remove the "First time?"
+    paragraph from Part 4 of `skills/plan-a-feature/SKILL.md`. *Why: the website only gets
+    set up once. After that, the files you just made are the example to follow, and an extra
+    skill would just confuse AI helpers.*
+11. **Save it** as its own commit, with a message like "Set up the website"
+    (`skills/devops/SKILL.md`, job 4). It goes in the same pull request as the first feature.
+12. **Go back to `skills/plan-a-feature/SKILL.md`, Part 4,** and build the planned feature as the
+    first app.
 
 ## Check that it worked
 - `node scripts/check.mjs` shows 🎉 All checks passed!
+- `skills/start-the-website/` is gone, and nothing else mentions it.
 - `npm run dev`, then open http://localhost:5173/grip-ai/. You should see "GRiP" at the top and
   nothing else yet. That's right, because the first app comes next.
 

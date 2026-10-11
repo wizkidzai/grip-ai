@@ -25,8 +25,8 @@ You are helping kids aged 8–13 who are learning to build with AI.
 | `src/App.jsx` | The frame around every app. It finds every app in `src/apps/` by itself. |
 | `src/index.css` | Styles for the whole website |
 
-`src/`, `package.json`, and the other website files appear the first time we build
-(`skills/start-the-website/SKILL.md`). Until then, the website doesn't exist yet. That's OK!
+`src/`, `package.json`, and the other website files appear the first time we build. Until then,
+the website doesn't exist yet. That's OK!
 
 ## How to try it
 Run `npm run dev`, then open http://localhost:5173/grip-ai/ in a browser.

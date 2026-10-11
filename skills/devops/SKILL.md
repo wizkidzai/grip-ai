@@ -92,7 +92,7 @@ change anything real. Anything an app saves in the browser stays on your compute
 ## 7. Deploy (publish)
 The website publishes by itself. When a grown-up merges a pull request into `main`,
 `.github/workflows/deploy.yml` builds the site and puts it on GitHub Pages. It uses no secrets.
-(That file is made the first time we build, by `skills/start-the-website/SKILL.md`.)
+(That file is made the first time we build.)
 1. Check it: `gh run list --workflow deploy.yml --limit 1`. After it finishes, open the live
    website (it can take a few minutes).
 2. Tidy up: `gh pr view <branch> --json state`. If it says `MERGED`, the work is safe on `main`, so

@@ -62,12 +62,23 @@ Add this to the bottom of `requirements.md`, then show it to the kid:
 
 ## Part 4: Build it
 Only now do you start writing code.
-1. **First time?** If there is no `package.json` in the project, the website hasn't been set up
-   yet. Follow `skills/start-the-website/SKILL.md` first, then come back here.
-2. Change the status to **Building**. A new app gets its own folder: `src/apps/<app-name>/`.
-3. Build one small piece at a time. After each piece, show the kid how to try it.
-4. If the plan changes, update the entry in `requirements.md`.
-5. When every "done when" check passes, tick the boxes (`- [x]`) and change the status to **Done**.
+
+**First time?** If there is no `package.json` in the project, the website hasn't been set up yet.
+Follow `skills/start-the-website/SKILL.md` first, then come back here.
+
+1. Change the status to **Building**. A new app gets its own folder, `src/apps/<app-name>/`, with
+   an `App.jsx` (the app) and an `about.js` (what the home page shows about it):
+   ```js
+   export default {
+     name: 'Space Quiz',
+     emoji: '🚀',
+     description: 'Test what you know about robots in space.',
+     madeBy: '<first name>',
+   }
+   ```
+2. Build one small piece at a time. After each piece, show the kid how to try it.
+3. If the plan changes, update the entry in `requirements.md`.
+4. When every "done when" check passes, tick the boxes (`- [x]`) and change the status to **Done**.
 
 ## Check that it worked
 - The entry is at the bottom of `requirements.md`, and every line is filled in.
