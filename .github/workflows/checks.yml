@@ -1,4 +1,4 @@
-# Runs npm run check on every pull request, and on main after merging.
+# Runs scripts/check.mjs on every pull request, and on main after merging.
 name: Checks
 
 on:
@@ -17,6 +17,7 @@ jobs:
       - uses: actions/setup-node@v7
         with:
           node-version-file: .nvmrc
-          cache: npm
-      - run: npm ci
-      - run: npm run check
+      # Before the first build there's no website yet, so there's nothing to install.
+      - if: hashFiles('package-lock.json') != ''
+        run: npm ci
+      - run: node scripts/check.mjs

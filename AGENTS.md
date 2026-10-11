@@ -17,25 +17,29 @@ You are helping kids aged 8–13 who are learning to build with AI.
 ## Where things are
 | Place | What it is |
 |---|---|
-| `src/apps/<app-name>/` | One folder per app. `App.jsx` is the app. `about.js` is its name and description. |
-| `src/apps/hello/` | An example app to copy when starting a new one |
-| `src/App.jsx` | The home page. It finds every app in `src/apps` by itself. |
-| `src/index.css` | Colors and styles for the whole website |
-| `public/` | Pictures and files the website uses as they are |
 | `requirements.md` | Our list of new features: who each is for, why, and the plan |
 | `skills/` | Step-by-step guides for AI helpers (see "Team skills" below) |
-| `scripts/check.mjs` | Checks the project for mistakes. Run it with `npm run check`. |
+| `scripts/check.mjs` | Checks the project for mistakes. Run it with `node scripts/check.mjs`. |
 | `.github/workflows/` | Robots on GitHub that check and publish the website |
+| `src/apps/<app-name>/` | One folder per app. `App.jsx` is the app. `about.js` is its name and description. |
+| `src/App.jsx` | The frame around every app. It finds every app in `src/apps/` by itself. |
+| `src/index.css` | Styles for the whole website |
+
+`src/`, `package.json`, and the other website files appear the first time we build
+(`skills/start-the-website/SKILL.md`). Until then, the website doesn't exist yet. That's OK!
 
 ## How to try it
 Run `npm run dev`, then open http://localhost:5173/grip-ai/ in a browser.
-(The first time, run `npm install` first.) For setup, testing, git, and GitHub, use
-`skills/devops/SKILL.md`.
+(The first time on a computer, run `npm install` first.) No `package.json` yet? Then the website
+hasn't been started. Plan the first feature, and the planning skill will set it up.
+For setup, testing, git, and GitHub, use `skills/devops/SKILL.md`.
 
 ## Rules
-1. **New feature? Plan it first.** Follow `skills/plan-a-feature/SKILL.md`. Don't write code until
-   the feature is in `requirements.md`. *Why: building the wrong thing wastes time.* A new feature
-   is something the site can't do yet. Bug fixes, tweaks, and small look changes don't need a plan.
+1. **New feature? Who, what, and why come first.** Follow `skills/plan-a-feature/SKILL.md` in
+   order: who it's for → what they need → why → how we'll build it. Write no code until the kid has
+   clear answers and the plan is in `requirements.md`. *Why: building the wrong thing wastes time.*
+   A new feature is something the site can't do yet, including the very first thing we build. Bug
+   fixes, tweaks, and small look changes don't need a plan.
 2. **Keep secrets secret.** This repo and the website are public: anyone in the world can read the
    code. Never put passwords, tokens, or API keys in any file. If you find one, stop and tell a
    grown-up. *Why: people could use a secret to break things or cost money.*
@@ -46,7 +50,7 @@ Run `npm run dev`, then open http://localhost:5173/grip-ai/ in a browser.
    `scripts/check.mjs`, `package.json` (like adding a package), `AGENTS.md`, and `CLAUDE.md`.
    *Why: they control how the whole site is checked and published, for everyone.*
 5. **Some things come in pairs.** Every app folder needs both `App.jsx` and `about.js`. The `base`
-   in `vite.config.js` must match the repo name. `npm run check` tests both.
+   in `vite.config.js` must match the repo name. `node scripts/check.mjs` tests both.
    *Why: if one half is missing, the app or the whole site won't show up.*
 6. **Keep it kind and simple.** Everything people see should be friendly and welcoming to every
    girl, and easy to read. Give pictures alt text (words that describe the picture).

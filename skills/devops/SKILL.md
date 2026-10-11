@@ -40,16 +40,20 @@ Then sign in and get the project:
    `gh api user --jq .login`, then `git config --global user.email "<id>+<login>@users.noreply.github.com"`.
 3. Get the project: `git clone https://github.com/wizkidzai/grip-ai.git`, then `cd grip-ai`.
    Use `git clone`, not `gh repo clone`, so only our own repo gets connected.
-4. `gh repo set-default wizkidzai/grip-ai`, then `npm install`.
+4. `gh repo set-default wizkidzai/grip-ai`. If the project has a `package.json`, also run
+   `npm install` to download the website's tools.
 5. Run it (see job 2).
 
 Windows tip: if `npm` says "running scripts is disabled", use Command Prompt or Git Bash instead
 of PowerShell, or ask a grown-up.
 
 ## 2. Run and test
+No `package.json` yet? The website hasn't been started. Plan the first feature with
+`skills/plan-a-feature/SKILL.md`. It sets up the website when it's time to build.
+
 1. `npm run dev` starts the website. Open http://localhost:5173/grip-ai/. Changes show up as you
    save. Press `Ctrl+C` in the terminal to stop it.
-2. `npm run check` looks for common mistakes. Fix every ❌ before sharing.
+2. `node scripts/check.mjs` looks for common mistakes. Fix every ❌ before sharing.
 3. Try it like a real visitor: click everything. Press `F12` and look in the **Console** tab for
    red errors. Press `Ctrl+Shift+M` (on Mac, `Cmd+Shift+M`) to see it at phone size.
 4. Go through the "Done when" checks for this feature in `requirements.md`.
@@ -66,11 +70,11 @@ change anything real. Anything an app saves in the browser stays on your compute
 
 ## 4. Save (commit)
 1. `git status` and `git diff`: look at what changed together, and explain it simply.
-2. Make sure there are no secrets or private info (rules 2 and 3 in `AGENTS.md`). Run `npm run check`.
+2. Make sure there are no secrets or private info (rules 2 and 3 in `AGENTS.md`). Run `node scripts/check.mjs`.
 3. `git add <the files>`, then `git commit -m "<short message in the kid's own words>"`.
 
 ## 5. Share for review
-1. Get teammates' changes first (job 6), then run `npm run check` again.
+1. Get teammates' changes first (job 6), then run `node scripts/check.mjs` again.
 2. `git push -u origin HEAD`
 3. `gh pr create --repo wizkidzai/grip-ai --base main` with a title, and a body that says what
    changed, how to test it, and which `requirements.md` feature it's for (if any).
@@ -88,6 +92,7 @@ change anything real. Anything an app saves in the browser stays on your compute
 ## 7. Deploy (publish)
 The website publishes by itself. When a grown-up merges a pull request into `main`,
 `.github/workflows/deploy.yml` builds the site and puts it on GitHub Pages. It uses no secrets.
+(That file is made the first time we build, by `skills/start-the-website/SKILL.md`.)
 1. Check it: `gh run list --workflow deploy.yml --limit 1`. After it finishes, open the live
    website (it can take a few minutes).
 2. Tidy up: `gh pr view <branch> --json state`. If it says `MERGED`, the work is safe on `main`, so
@@ -101,7 +106,7 @@ add it to the table in job 1, or to `package.json` with `npm install <name>`, so
 gets it too.
 
 ## Check that it worked
-- `npm run check` shows 🎉 All checks passed!
+- `node scripts/check.mjs` shows 🎉 All checks passed!
 - `git status` says "nothing to commit, working tree clean" after saving.
 - Your pull request shows ✅ for every check.
 

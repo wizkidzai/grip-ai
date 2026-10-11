@@ -1,5 +1,5 @@
 // Checks the project for common mistakes.
-// Run it with:  npm run check
+// Run it with:  node scripts/check.mjs
 // Each check prints ✅ (good) or ❌ (problem) with how to fix it.
 // It uses only what comes with Node.js, so there is nothing extra to install.
 
@@ -59,67 +59,75 @@ function readText(file) {
 
 const files = projectFiles()
 
-// 1. Tools are installed
 if (!files) {
   fail('Git is working', ['Could not list the project files with git.'],
     'Make sure git is installed and you are inside the grip-ai folder. See skills/devops/SKILL.md, job 1.')
   process.exit(1)
 }
-if (!existsSync(join(root, 'node_modules'))) {
-  fail('Project tools are installed', ['The node_modules folder is missing.'],
-    'Run: npm install')
-  process.exit(1)
-}
-pass('Project tools are installed')
 
-// 2. Lint: finds code mistakes, like typos in names or broken React code
-const lint = run('npm run lint')
-if (lint.ok) pass('Code has no mistakes the linter can find')
-else fail('Code has no mistakes the linter can find', shortError(lint.output),
-  'Read the messages above. Each one names a file and line number. Fix it, then run npm run check again.')
+// Checks 1-5 test the website. Before the first build there is no website
+// yet (no package.json), so they are skipped.
+if (existsSync(join(root, 'package.json'))) websiteChecks()
+else console.log('⏭️  Website checks skipped: the website isn\'t set up yet. See skills/start-the-website/SKILL.md.')
 
-// 3. Build: makes the real website, and fails if any file is broken or missing
-const build = run('npm run build')
-if (build.ok) pass('Website builds')
-else fail('Website builds', shortError(build.output),
-  'Read the error above. It usually names the file and line that is broken.')
-
-// 4. Every app folder has both of its files
-const appsDir = join(root, 'src', 'apps')
-const appProblems = []
-for (const name of readdirSync(appsDir)) {
-  const folder = join(appsDir, name)
-  if (!statSync(folder).isDirectory()) continue
-  if (!/^[a-z0-9]+(-[a-z0-9]+)*$/.test(name)) {
-    appProblems.push(`src/apps/${name}: folder names use only small letters, numbers, and dashes (like "space-quiz")`)
+function websiteChecks() {
+  // 1. Tools are installed
+  if (!existsSync(join(root, 'node_modules'))) {
+    fail('Project tools are installed', ['The node_modules folder is missing.'], 'Run: npm install')
+    return
   }
-  if (!existsSync(join(folder, 'App.jsx'))) appProblems.push(`src/apps/${name}/App.jsx is missing`)
-  const aboutFile = join(folder, 'about.js')
-  if (!existsSync(aboutFile)) {
-    appProblems.push(`src/apps/${name}/about.js is missing`)
-    continue
-  }
-  const about = readFileSync(aboutFile, 'utf8')
-  for (const field of ['name', 'emoji', 'description']) {
-    if (!new RegExp(`\\b${field}\\s*:`).test(about)) {
-      appProblems.push(`src/apps/${name}/about.js needs a "${field}"`)
+  pass('Project tools are installed')
+
+  // 2. Lint: finds code mistakes, like typos in names or broken React code
+  const lint = run('npm run lint')
+  if (lint.ok) pass('Code has no mistakes the linter can find')
+  else fail('Code has no mistakes the linter can find', shortError(lint.output),
+    'Read the messages above. Each one names a file and line number. Fix it, then run the check again.')
+
+  // 3. Build: makes the real website, and fails if any file is broken or missing
+  const build = run('npm run build')
+  if (build.ok) pass('Website builds')
+  else fail('Website builds', shortError(build.output),
+    'Read the error above. It usually names the file and line that is broken.')
+
+  // 4. Every app folder has both of its files
+  const appsDir = join(root, 'src', 'apps')
+  const appProblems = []
+  for (const name of existsSync(appsDir) ? readdirSync(appsDir) : []) {
+    const folder = join(appsDir, name)
+    if (!statSync(folder).isDirectory()) continue
+    if (!/^[a-z0-9]+(-[a-z0-9]+)*$/.test(name)) {
+      appProblems.push(`src/apps/${name}: folder names use only small letters, numbers, and dashes (like "space-quiz")`)
+    }
+    if (!existsSync(join(folder, 'App.jsx'))) appProblems.push(`src/apps/${name}/App.jsx is missing`)
+    const aboutFile = join(folder, 'about.js')
+    if (!existsSync(aboutFile)) {
+      appProblems.push(`src/apps/${name}/about.js is missing`)
+      continue
+    }
+    const about = readFileSync(aboutFile, 'utf8')
+    for (const field of ['name', 'emoji', 'description']) {
+      if (!new RegExp(`\\b${field}\\s*:`).test(about)) {
+        appProblems.push(`src/apps/${name}/about.js needs a "${field}"`)
+      }
     }
   }
-}
-if (appProblems.length === 0) pass('Every app has App.jsx and about.js')
-else fail('Every app has App.jsx and about.js', appProblems,
-  'Copy src/apps/hello as an example. Each app folder needs App.jsx and about.js with name, emoji, and description.')
+  if (appProblems.length === 0) pass('Every app has App.jsx and about.js')
+  else fail('Every app has App.jsx and about.js', appProblems,
+    'Each app folder needs App.jsx and about.js, and about.js needs a name, emoji, and description. See skills/start-the-website/SKILL.md, step 11.')
 
-// 5. The website address matches the repo name
-const config = readFileSync(join(root, 'vite.config.js'), 'utf8')
-const base = config.match(/base:\s*['"`]([^'"`]*)['"`]/)?.[1]
-const remote = run('git remote get-url origin')
-const repoName = remote.ok ? basename(remote.output).replace(/\.git$/, '') : null
-if (!repoName) pass('Website address matches repo name (skipped: no origin remote)')
-else if (base === `/${repoName}/`) pass('Website address matches repo name')
-else fail('Website address matches repo name',
-  [`vite.config.js has base: '${base}', but the repo is called "${repoName}"`],
-  `Ask a grown-up to set base: '/${repoName}/' in vite.config.js.`)
+  // 5. The website address matches the repo name
+  const configFile = join(root, 'vite.config.js')
+  const config = existsSync(configFile) ? readFileSync(configFile, 'utf8') : ''
+  const base = config.match(/base:\s*['"`]([^'"`]*)['"`]/)?.[1]
+  const remote = run('git remote get-url origin')
+  const repoName = remote.ok ? basename(remote.output).replace(/\.git$/, '') : null
+  if (!repoName) pass('Website address matches repo name (skipped: no origin remote)')
+  else if (base === `/${repoName}/`) pass('Website address matches repo name')
+  else fail('Website address matches repo name',
+    [`vite.config.js has base: '${base}', but the repo is called "${repoName}"`],
+    `Ask a grown-up to set base: '/${repoName}/' in vite.config.js.`)
+}
 
 // 6. No secrets (passwords, tokens, keys)
 // Each pattern needs real-looking letters after the start, so this file's own
@@ -191,6 +199,6 @@ console.log('')
 if (failures === 0) {
   console.log('🎉 All checks passed!')
 } else {
-  console.log(`${failures} ${failures === 1 ? 'check' : 'checks'} failed. Fix the ❌ items above, then run npm run check again.`)
+  console.log(`${failures} ${failures === 1 ? 'check' : 'checks'} failed. Fix the ❌ items above, then run node scripts/check.mjs again.`)
   process.exit(1)
 }
