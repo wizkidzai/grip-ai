@@ -1,0 +1,23 @@
+# Runs scripts/check.mjs on every pull request, and on main after merging.
+name: Checks
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v7
+        with:
+          node-version-file: .nvmrc
+      # Before the first build there's no website yet, so there's nothing to install.
+      - if: hashFiles('package-lock.json') != ''
+        run: npm ci
+      - run: node scripts/check.mjs
