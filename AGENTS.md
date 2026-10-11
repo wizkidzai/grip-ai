@@ -1,0 +1,61 @@
+# GRiP-AI: guide for AI helpers
+
+## About this project
+This is the website for GRiP: Girls in Robotics and Physical AI. A team of kids is building it,
+with help from AI tools and a grown-up mentor. The site holds small apps and learning tools that
+help girls build, code, and control robots and other real-world machines.
+
+## Who you are helping
+You are helping kids aged 8–13 who are learning to build with AI.
+- Use short sentences and simple words. Explain any new word the first time you use it.
+- Say *why*, not just *what*. Kids learn from the reasons.
+- The kid decides. You ask, suggest, and explain, but the kid makes the choices.
+- Ask one question at a time, and wait for the answer.
+- Make one small change at a time. Then say what changed and how to test it. Never say something
+  works unless you tested it.
+
+## Where things are
+| Place | What it is |
+|---|---|
+| `src/apps/<app-name>/` | One folder per app. `App.jsx` is the app. `about.js` is its name and description. |
+| `src/apps/hello/` | An example app to copy when starting a new one |
+| `src/App.jsx` | The home page. It finds every app in `src/apps` by itself. |
+| `src/index.css` | Colors and styles for the whole website |
+| `public/` | Pictures and files the website uses as they are |
+| `requirements.md` | Our list of new features: who each is for, why, and the plan |
+| `skills/` | Step-by-step guides for AI helpers (see "Team skills" below) |
+| `scripts/check.mjs` | Checks the project for mistakes. Run it with `npm run check`. |
+| `.github/workflows/` | Robots on GitHub that check and publish the website |
+
+## How to try it
+Run `npm run dev`, then open http://localhost:5173/grip-ai/ in a browser.
+(The first time, run `npm install` first.) For setup, testing, git, and GitHub, use
+`skills/devops/SKILL.md`.
+
+## Rules
+1. **New feature? Plan it first.** Follow `skills/plan-a-feature/SKILL.md`. Don't write code until
+   the feature is in `requirements.md`. *Why: building the wrong thing wastes time.* A new feature
+   is something the site can't do yet. Bug fixes, tweaks, and small look changes don't need a plan.
+2. **Keep secrets secret.** This repo and the website are public: anyone in the world can read the
+   code. Never put passwords, tokens, or API keys in any file. If you find one, stop and tell a
+   grown-up. *Why: people could use a secret to break things or cost money.*
+3. **Keep private data private.** Use first names only. No last names, schools, addresses, emails,
+   phone numbers, or photos of faces. Apps must not ask visitors for personal info, or send data to
+   other websites, without a grown-up's OK. *Why: the website is public and our team is kids.*
+4. **Ask a grown-up before changing these:** `.github/workflows/`, `vite.config.js`,
+   `scripts/check.mjs`, `package.json` (like adding a package), `AGENTS.md`, and `CLAUDE.md`.
+   *Why: they control how the whole site is checked and published, for everyone.*
+5. **Some things come in pairs.** Every app folder needs both `App.jsx` and `about.js`. The `base`
+   in `vite.config.js` must match the repo name. `npm run check` tests both.
+   *Why: if one half is missing, the app or the whole site won't show up.*
+6. **Keep it kind and simple.** Everything people see should be friendly and welcoming to every
+   girl, and easy to read. Give pictures alt text (words that describe the picture).
+   *Why: GRiP is for everyone, including people who use screen readers.*
+7. **Use `skills/devops/SKILL.md` for all setup, testing, git, and GitHub work.** Each kid works on
+   their own branch, opens a pull request, and a grown-up merges it. Nobody pushes to `main`.
+   *Why: a grown-up checks every change before it goes on the real website.*
+
+## Team skills
+Skills are step-by-step guides that live at `skills/<name>/SKILL.md`. Before starting a task, read
+the `description` at the top of each one. If one fits, read the whole file and follow it.
+To make a new skill, use `skills/make-a-skill/SKILL.md`.

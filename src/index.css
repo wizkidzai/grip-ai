@@ -1,0 +1,144 @@
+/* Colors and styles for the whole website. */
+:root {
+  --purple: #7c3aed;
+  --purple-dark: #5b21b6;
+  --teal: #0f766e;
+  --text: #1f2937;
+  --muted: #4b5563;
+  --background: #faf7ff;
+  --card: #ffffff;
+  --border: #e5defa;
+
+  font-family: system-ui, 'Segoe UI', Roboto, sans-serif;
+  line-height: 1.5;
+  color: var(--text);
+  background: var(--background);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  background: var(--background);
+}
+
+a {
+  color: var(--purple-dark);
+}
+
+button {
+  font: inherit;
+  font-weight: 600;
+  padding: 0.6rem 1.2rem;
+  border: none;
+  border-radius: 999px;
+  background: var(--purple);
+  color: white;
+  cursor: pointer;
+}
+
+button:hover {
+  background: var(--purple-dark);
+}
+
+button:focus-visible,
+a:focus-visible {
+  outline: 3px solid var(--teal);
+  outline-offset: 2px;
+}
+
+.site {
+  max-width: 960px;
+  margin: 0 auto;
+  padding: 0 16px;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.site-header {
+  display: flex;
+  align-items: baseline;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+  padding: 1rem 0;
+}
+
+.logo {
+  font-size: 1.75rem;
+  font-weight: 800;
+  color: var(--purple);
+  text-decoration: none;
+}
+
+.tagline {
+  color: var(--muted);
+}
+
+main {
+  flex: 1;
+}
+
+.hero {
+  padding: 2rem 0 1.5rem;
+}
+
+.hero h1 {
+  font-size: clamp(1.75rem, 5vw, 2.75rem);
+  line-height: 1.2;
+  margin: 0 0 0.75rem;
+}
+
+.hero p {
+  font-size: 1.15rem;
+  color: var(--muted);
+  max-width: 40rem;
+}
+
+.app-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  gap: 1rem;
+  padding-bottom: 2rem;
+}
+
+.app-card {
+  display: block;
+  padding: 1.25rem;
+  background: var(--card);
+  border: 2px solid var(--border);
+  border-radius: 16px;
+  color: inherit;
+  text-decoration: none;
+}
+
+.app-card:hover {
+  border-color: var(--purple);
+}
+
+.app-card h2 {
+  font-size: 1.25rem;
+  margin: 0.5rem 0 0.25rem;
+}
+
+.app-card p {
+  margin: 0;
+  color: var(--muted);
+}
+
+.app-emoji {
+  font-size: 2.5rem;
+}
+
+.made-by {
+  margin-top: 0.75rem !important;
+  font-size: 0.9rem;
+}
+
+.site-footer {
+  padding: 1.5rem 0;
+  color: var(--muted);
+  font-size: 0.9rem;
+}

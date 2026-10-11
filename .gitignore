@@ -1,0 +1,26 @@
+# Downloaded tools (npm install makes this again)
+node_modules
+
+# The built website (npm run build makes this again)
+dist
+dist-ssr
+
+# Secrets and private settings: never share these
+.env
+.env.*
+*.env
+!.env.example
+*.local
+*.pem
+*.key
+
+# Logs
+*.log
+
+# Editor and computer files
+.vscode/*
+!.vscode/extensions.json
+.idea
+.DS_Store
+Thumbs.db
+*.sw?
