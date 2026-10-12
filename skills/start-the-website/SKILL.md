@@ -14,9 +14,9 @@ team planned.
 1. Look for `package.json` in the project folder. If it's there, the website is already set up,
    so don't use this skill.
 2. Look in `requirements.md` for a feature with **Status: Planned**. If there isn't one, follow
-   `skills/plan-a-feature/SKILL.md` first. *Why: we build the website for someone, so we start
+   `skills/shared/plan-a-feature/SKILL.md` first. *Why: we build the website for someone, so we start
    by knowing who.*
-3. Make sure you're on your own branch (`skills/devops/SKILL.md`, job 3), and that
+3. Make sure you're on your own branch (`skills/shared/devops/SKILL.md`, job 3), and that
    `node --version` says 22.12 or newer.
 
 ## Steps
@@ -199,13 +199,13 @@ Explain each step to the kid in one sentence as you go.
          - id: deployment
            uses: actions/deploy-pages@v5
    ```
-10. **Delete this skill.** Remove the `skills/start-the-website/` folder, and remove the "First time?"
-    paragraph from Part 4 of `skills/plan-a-feature/SKILL.md`. *Why: the website only gets
-    set up once. After that, the files you just made are the example to follow, and an extra
-    skill would just confuse AI helpers.*
+10. **Delete this skill.** Remove the `skills/start-the-website/` folder, and remove the last rule
+    ("First build sets up the website") from `AGENTS.md`. *Why: the website only gets set up
+    once. After that, the files you just made are the example to follow, and an extra skill would
+    just confuse AI helpers.*
 11. **Save it** as its own commit, with a message like "Set up the website"
-    (`skills/devops/SKILL.md`, job 4). It goes in the same pull request as the first feature.
-12. **Go back to `skills/plan-a-feature/SKILL.md`, Part 4,** and build the planned feature as the
+    (`skills/shared/devops/SKILL.md`, job 4). It goes in the same pull request as the first feature.
+12. **Go back to `skills/shared/plan-a-feature/SKILL.md`, Part 4,** and build the planned feature as the
     first app.
 
 ## Check that it worked

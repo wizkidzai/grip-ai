@@ -42,13 +42,15 @@ function shortError(output) {
 
 // Every file we would share: saved (committed) files AND new files git
 // doesn't know about yet. Files listed in .gitignore are skipped.
+// Folders are skipped too: git lists the skills/shared submodule as one entry,
+// but it's a folder from another repo, not a file.
 function projectFiles() {
   const result = run('git ls-files --cached --others --exclude-standard')
   if (!result.ok) return null
   return result.output
     .split('\n')
     .map((line) => line.trim())
-    .filter((file) => file && existsSync(join(root, file)))
+    .filter((file) => file && existsSync(join(root, file)) && statSync(join(root, file)).isFile())
 }
 
 function readText(file) {
@@ -61,14 +63,14 @@ const files = projectFiles()
 
 if (!files) {
   fail('Git is working', ['Could not list the project files with git.'],
-    'Make sure git is installed and you are inside the grip-ai folder. See skills/devops/SKILL.md, job 1.')
+    'Make sure git is installed and you are inside the grip-ai folder. See skills/shared/devops/SKILL.md, job 1.')
   process.exit(1)
 }
 
 // Checks 1-5 test the website. Before the first build there is no website
 // yet (no package.json), so they are skipped.
 if (existsSync(join(root, 'package.json'))) websiteChecks()
-else console.log('⏭️  Website checks skipped: the website isn\'t set up yet. Plan the first feature with skills/plan-a-feature/SKILL.md.')
+else console.log('⏭️  Website checks skipped: the website isn\'t set up yet. Plan the first feature with skills/shared/plan-a-feature/SKILL.md.')
 
 function websiteChecks() {
   // 1. Tools are installed
@@ -114,7 +116,7 @@ function websiteChecks() {
   }
   if (appProblems.length === 0) pass('Every app has App.jsx and about.js')
   else fail('Every app has App.jsx and about.js', appProblems,
-    'Each app folder needs App.jsx and about.js, and about.js needs a name, emoji, and description. See skills/plan-a-feature/SKILL.md, Part 4.')
+    'Each app folder needs App.jsx and about.js, and about.js needs a name, emoji, and description. See "Where new features go" in AGENTS.md.')
 
   // 5. The website address matches the repo name
   const configFile = join(root, 'vite.config.js')
