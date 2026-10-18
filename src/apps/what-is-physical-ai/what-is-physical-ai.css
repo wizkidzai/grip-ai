@@ -17,7 +17,8 @@
   margin-bottom: 24px;
   padding: 20px;
   border-radius: 16px;
-  background: #faf5ff;
+  background: #ffffff;
+  box-shadow: var(--card-shadow);
 }
 
 /* The 3 steps side by side, with an arrow between them (one on top of the other on phones) */
@@ -37,7 +38,7 @@
   padding: 20px 16px;
   border-top: 6px solid #db2777;
   border-radius: 16px;
-  background: #ffffff;
+  background: var(--card-inside);
   text-align: center;
 }
 .step-card + .step-card::before {

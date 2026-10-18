@@ -12,7 +12,7 @@ Bug fixes, tweaks, and small look-and-feel changes don't go here.
 ---
 
 ## Outreach website
-- **Status:** Building
+- **Status:** Done
 - **Asked by:** Sky, 2026-10-17
 - **Who it's for:** People aged 8 and up (girls and boys) who want to learn about girls in robotics
   and physical AI.
@@ -56,8 +56,8 @@ Bug fixes, tweaks, and small look-and-feel changes don't go here.
   5. They use the menu bar to go to "Our goals + progress" and see how far the team has gotten.
   6. From any page, the menu bar takes them to any other page, or back home.
 - **Done when:**
-  - [ ] When I open the website, I see the title "Girls in Robotics and Physical AI" and 3 buttons.
+  - [x] When I open the website, I see the title "Girls in Robotics and Physical AI" and 3 buttons.
     Each button opens the right page.
-  - [ ] On every page, the menu bar at the top takes me to any other page.
-  - [ ] On "About our topic", the graph shows 50% → 24% → 9%, with the sources under it.
-  - [ ] On "Our goals + progress", I can see every goal and its progress (like Events: 5 of 12).
+  - [x] On every page, the menu bar at the top takes me to any other page.
+  - [x] On "About our topic", the graph shows 50% → 24% → 9%, with the sources under it.
+  - [x] On "Our goals + progress", I can see every goal and its progress (like Events: 5 of 12).
