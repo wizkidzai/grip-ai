@@ -77,11 +77,6 @@ The shared skills read this section, so keep it up to date.
 7. **Use `skills/shared/devops/SKILL.md` for setup, testing, git, GitHub, and deploying.** Each kid
    works on their own branch, opens a pull request, and a grown-up merges it. Nobody pushes to
    `main`. *Why: a grown-up checks every change before it goes on the real website.*
-8. **First build sets up the website.** If there's no `package.json` yet, then once the first
-   feature is planned, follow `skills/start-the-website/SKILL.md` before building it. This
-   replaces the "First time?" step in `skills/shared/plan-a-feature/SKILL.md`: a grown-up
-   already picked the tools, so you don't need to ask first. *Why: the setup is the same every
-   time, and a grown-up reviews it in the pull request.*
 
 ## Team skills
 **Skills** are step-by-step guides that teach AI helpers how to do one job well. Shared skills are
