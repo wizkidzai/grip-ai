@@ -47,7 +47,8 @@ The shared skills read this section, so keep it up to date.
   `requirements.md`. To see it exactly like the live site: `npm run build`, then `npm run preview`.
 - **Where new features go:** a new app gets its own folder, `src/apps/<app-name>/` (small letters
   and dashes), with `App.jsx` (the app) and `about.js`, which looks like
-  `export default { name: 'Space Quiz', emoji: '🚀', description: '...', madeBy: '<first name>' }`.
+  `export default { name: 'Space Quiz', emoji: '🚀', description: '...', madeBy: '<first name>', order: 1 }`.
+  `order` is optional: it sets where the app's button goes (smaller numbers first).
   The home page finds new apps by itself.
 - **Deploy:** automatic. When a grown-up merges into `main`, `.github/workflows/deploy.yml` builds
   the site and publishes it to GitHub Pages. It uses no secrets. Kids don't need to do anything.

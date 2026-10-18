@@ -12,7 +12,7 @@ Bug fixes, tweaks, and small look-and-feel changes don't go here.
 ---
 
 ## Outreach website
-- **Status:** Planned
+- **Status:** Building
 - **Asked by:** Sky, 2026-10-17
 - **Who it's for:** People aged 8 and up (girls and boys) who want to learn about girls in robotics
   and physical AI.
