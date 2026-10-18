@@ -76,33 +76,40 @@ body {
 }
 .home-buttons {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(180px, 210px));
+  justify-content: center;
   gap: 16px;
 }
 .home-button {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 6px;
-  aspect-ratio: 1;
   justify-content: center;
+  gap: 12px;
+  aspect-ratio: 1;
   padding: 16px;
-  border: 3px solid var(--accent);
-  border-radius: 16px;
+  border: 3px solid #c4b5fd;
+  border-radius: 24px;
+  background: linear-gradient(160deg, #ffffff, var(--accent-light));
+  box-shadow: 0 6px 16px rgba(124, 58, 237, 0.15);
   color: inherit;
   text-decoration: none;
+  transition: transform 0.15s, box-shadow 0.15s, border-color 0.15s;
 }
-.home-button:hover {
-  background: var(--accent-light);
+/* A little bounce when you point at a button */
+.home-button:hover,
+.home-button:focus-visible {
+  transform: translateY(-6px);
+  border-color: var(--accent);
+  box-shadow: 0 12px 24px rgba(124, 58, 237, 0.3);
 }
 .home-button-emoji {
-  font-size: 2.5rem;
+  font-size: 3.5rem;
+  line-height: 1;
 }
 .home-button-name {
-  font-size: 1.2rem;
-  font-weight: 700;
+  font-size: 1.25rem;
+  font-weight: 800;
+  line-height: 1.2;
   color: var(--accent);
-}
-.home-button-description {
-  font-size: 0.95rem;
 }

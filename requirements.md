@@ -18,17 +18,20 @@ Bug fixes, tweaks, and small look-and-feel changes don't go here.
   and physical AI.
 - **Problem or need:** They need to learn that this problem is happening: girls drop out of
   robotics as they get older.
-- **Why they have it:** Most people don't know about it. About 50% of the kids interested in
-  robotics in elementary school are girls, then under 20% in middle school, and only 16% in jobs.
-  Sources: [Society of Women Engineers Research](https://swe.org/research/) and
-  [FIRST Robotics Impact](https://www.firstinspires.org/about/impact) (Brandeis University study).
+- **Why they have it:** Most people don't know about it. About half of all kids are girls, but only
+  24% of engineering college degrees go to women, and only 9% of electrical and electronics
+  engineers are women. Sources: [SWE Fast Facts 2025](https://swe.org/research/2026/women-in-engineering-fast-facts/)
+  (page 2). Good news from [FIRST Robotics Impact](https://www.firstinspires.org/about/impact)
+  (Brandeis University study): 51% of girls who did FIRST study engineering or computer science
+  in college. (We first used 50% → under 20% → 16%, but couldn't find those numbers in a source
+  visitors can check. If we find one, we can switch.)
 - **Our idea:** An outreach website by the Electrified Entrepreneurs, with a menu bar at the top of
   every page:
   - **Home:** small "Electrified Entrepreneurs" line, the big title "Girls in Robotics and Physical
     AI", "Outreach Website" under it, and square buttons for each page.
   - **About our topic:** writing about the problem on the left. In the middle, a graph with a line
-    going down (50% → under 20% → 16%), with the sources and links under it. On the right, writing
-    about our solution, with a picture. At the bottom, a "What can you do?" box with one or two ways
+    going down (about 50% → 24% → 9%), with the sources and links under it. On the right, writing
+    about our solution (including the FIRST good news), with a picture. At the bottom, a "What can you do?" box with one or two ways
     to help, like "Invite a girl you know to try robotics!"
   - **What is physical AI?:** physical AI is AI that can see, think, and move by itself. It uses a
     3-step process: 1. Perception (sensing) → 2. Reasoning (deciding) → 3. Action (doing). Then 4
@@ -56,5 +59,5 @@ Bug fixes, tweaks, and small look-and-feel changes don't go here.
   - [ ] When I open the website, I see the title "Girls in Robotics and Physical AI" and 3 buttons.
     Each button opens the right page.
   - [ ] On every page, the menu bar at the top takes me to any other page.
-  - [ ] On "About our topic", the graph shows 50% → under 20% → 16%, with the sources under it.
+  - [ ] On "About our topic", the graph shows 50% → 24% → 9%, with the sources under it.
   - [ ] On "Our goals + progress", I can see every goal and its progress (like Events: 5 of 12).

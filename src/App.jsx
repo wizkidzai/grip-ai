@@ -66,7 +66,6 @@ export default function App() {
                     {a.emoji}
                   </span>
                   <span className="home-button-name">{a.name}</span>
-                  <span className="home-button-description">{a.description}</span>
                 </a>
               ))}
             </div>
