@@ -113,3 +113,14 @@ body {
   line-height: 1.2;
   color: var(--accent);
 }
+
+/* An empty box where a real picture goes later */
+.picture-coming-soon {
+  display: grid;
+  place-items: center;
+  aspect-ratio: 16 / 9;
+  border: 3px dashed #c4b5fd;
+  border-radius: 12px;
+  color: #6b7280;
+  font-weight: 600;
+}
