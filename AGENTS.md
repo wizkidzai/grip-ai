@@ -47,7 +47,8 @@ The shared skills read this section, so keep it up to date.
   `requirements.md`. To see it exactly like the live site: `npm run build`, then `npm run preview`.
 - **Where new features go:** a new app gets its own folder, `src/apps/<app-name>/` (small letters
   and dashes), with `App.jsx` (the app) and `about.js`, which looks like
-  `export default { name: 'Space Quiz', emoji: '🚀', description: '...', madeBy: '<first name>' }`.
+  `export default { name: 'Space Quiz', emoji: '🚀', description: '...', madeBy: '<first name>', order: 1 }`.
+  `order` is optional: it sets where the app's button goes (smaller numbers first).
   The home page finds new apps by itself.
 - **Deploy:** automatic. When a grown-up merges into `main`, `.github/workflows/deploy.yml` builds
   the site and publishes it to GitHub Pages. It uses no secrets. Kids don't need to do anything.
@@ -77,11 +78,6 @@ The shared skills read this section, so keep it up to date.
 7. **Use `skills/shared/devops/SKILL.md` for setup, testing, git, GitHub, and deploying.** Each kid
    works on their own branch, opens a pull request, and a grown-up merges it. Nobody pushes to
    `main`. *Why: a grown-up checks every change before it goes on the real website.*
-8. **First build sets up the website.** If there's no `package.json` yet, then once the first
-   feature is planned, follow `skills/start-the-website/SKILL.md` before building it. This
-   replaces the "First time?" step in `skills/shared/plan-a-feature/SKILL.md`: a grown-up
-   already picked the tools, so you don't need to ask first. *Why: the setup is the same every
-   time, and a grown-up reviews it in the pull request.*
 
 ## Team skills
 **Skills** are step-by-step guides that teach AI helpers how to do one job well. Shared skills are

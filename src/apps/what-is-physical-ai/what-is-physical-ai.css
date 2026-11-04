@@ -1,0 +1,118 @@
+.physical-ai h1 {
+  margin: 0;
+  text-align: center;
+  color: var(--accent);
+}
+.physical-ai h2 {
+  margin-top: 0;
+  font-size: 1.4rem;
+}
+.physical-ai-intro {
+  max-width: 680px;
+  margin: 8px auto 24px;
+  font-size: 1.15rem;
+  text-align: center;
+}
+.physical-ai-card {
+  margin-bottom: 24px;
+  padding: 20px;
+  border-radius: 16px;
+  background: #ffffff;
+  box-shadow: var(--card-shadow);
+}
+
+/* The 3 steps side by side, with an arrow between them (one on top of the other on phones) */
+.three-steps {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(220px, 100%), 1fr));
+  gap: 40px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.step-card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px 16px;
+  border-top: 6px solid #db2777;
+  border-radius: 16px;
+  background: var(--card-inside);
+  text-align: center;
+}
+.step-card + .step-card::before {
+  content: '➜';
+  position: absolute;
+  top: 50%;
+  left: -32px;
+  transform: translateY(-50%);
+  font-size: 1.6rem;
+  color: #db2777;
+}
+.step-emoji {
+  font-size: 3rem;
+  line-height: 1;
+}
+.step-number {
+  margin-top: 8px;
+  font-size: 0.8rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #6b7280;
+}
+.step-card h3 {
+  margin: 0;
+  font-size: 1.5rem;
+  color: var(--accent);
+}
+.step-meaning {
+  margin: 0 0 8px;
+  font-weight: 700;
+}
+.step-card p {
+  margin-top: 0;
+}
+.step-example {
+  margin-top: auto;
+  margin-bottom: 0;
+  padding: 8px 12px;
+  border-radius: 10px;
+  background: var(--accent-light);
+  font-size: 0.95rem;
+}
+
+/* 4 pictures in a row, with arrows between them */
+.picture-row {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  gap: 32px;
+}
+.picture-row > * {
+  position: relative;
+}
+.picture-row > * + *::before {
+  content: '➜';
+  position: absolute;
+  top: 50%;
+  left: -26px;
+  transform: translateY(-50%);
+  font-size: 1.2rem;
+  color: #db2777;
+}
+
+/* On phones, the steps and pictures stack, so the arrows point down */
+@media (max-width: 560px) {
+  .step-card + .step-card::before,
+  .picture-row > * + *::before {
+    content: '⬇';
+    top: -34px;
+    left: 50%;
+    transform: translateX(-50%);
+  }
+  .picture-row {
+    grid-template-columns: 1fr;
+    gap: 40px;
+  }
+}
