@@ -1,0 +1,54 @@
+# Builds the arm app (arm/web) and publishes it to GitHub Pages at
+# https://wizkidzai.github.io/grip-ai/arm/
+# Repo settings → Pages → Source must be "GitHub Actions".
+name: Deploy to GitHub Pages
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v7
+        with:
+          node-version-file: .nvmrc
+          cache: npm
+          cache-dependency-path: arm/web/package-lock.json
+      - run: npm ci
+        working-directory: arm/web
+      - run: npm test
+        working-directory: arm/web
+      - run: npx tsc --noEmit
+        working-directory: arm/web
+      # The app lives under /grip-ai/arm/, so tell Vite that is its base address.
+      - run: npx vite build --outDir ../../site/arm --emptyOutDir
+        working-directory: arm/web
+        env:
+          GRIP_BASE: /${{ github.event.repository.name }}/arm/
+      - uses: actions/configure-pages@v5
+      - uses: actions/upload-pages-artifact@v4
+        with:
+          path: site
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4
