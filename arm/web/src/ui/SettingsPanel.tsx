@@ -217,6 +217,9 @@ export function SettingsPanel({
           Deleting doesn't change anything stored inside the robot's motors. To pick single demos or brains, use the
           lists on the Teach and Train tabs.
         </p>
+        <a className="btn privacy-link" href="privacy.html" target="_blank" rel="noreferrer">
+          Privacy policy
+        </a>
       </div>
     </section>
   );

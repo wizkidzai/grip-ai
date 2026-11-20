@@ -1086,3 +1086,15 @@ details summary {
 }
 .s-hint { position: absolute; left: 50%; bottom: 84px; transform: translateX(-50%); margin: 0; padding: 8px 16px; border-radius: 999px; background: #fff; color: #1d1b2f; box-shadow: var(--shadow); font-weight: 600; font-size: .92rem; text-align: center; max-width: calc(100% - 24px); pointer-events: none; }
 .s-dock button { padding: 12px 18px; }
+
+/* --- privacy link --- */
+.privacy-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  text-decoration: none;
+  border-radius: 999px;
+}
+.privacy-link::before {
+  content: '🛡️';
+}
