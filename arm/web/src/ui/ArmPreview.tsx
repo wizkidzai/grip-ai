@@ -21,8 +21,13 @@ interface ArmProps {
   highlight?: number | null;
 }
 
+const GRAPHITE = '#2a2f25';
+const LIME = '#d3f36b';
+
 function Round({ size, radius = 0.006, children, shadow }: { size: [number, number, number]; radius?: number; children: React.ReactNode; shadow?: boolean }) {
-  const geo = useMemo(() => new RoundedBoxGeometry(size[0], size[1], size[2], 4, radius), [size, radius]);
+  const [sx, sy, sz] = size;
+  const geo = useMemo(() => new RoundedBoxGeometry(sx, sy, sz, 4, radius), [sx, sy, sz, radius]);
+  useEffect(() => () => geo.dispose(), [geo]);
   return (
     <mesh geometry={geo} castShadow={shadow}>
       {children}
@@ -30,38 +35,83 @@ function Round({ size, radius = 0.006, children, shadow }: { size: [number, numb
   );
 }
 
-/** A servo motor: rounded navy box, glows when its joint is highlighted. */
-function Servo({ lit, look, size = [0.03, 0.036, 0.05] as [number, number, number] }: { lit: boolean; look: Look; size?: [number, number, number] }) {
-  return (
-    <Round size={size} radius={0.008} shadow={look === 'solid'}>
-      <Material color={lit ? '#ffd23f' : '#3b4260'} look={look} emissive={lit ? '#ffb300' : undefined} />
-    </Round>
-  );
-}
-
-/** The round hinge cap you see at each joint. */
-function Hinge({ look, r = 0.02 }: { look: Look; r?: number }) {
-  return (
-    <mesh rotation={[Math.PI / 2, 0, 0]} castShadow={look === 'solid'}>
-      <cylinderGeometry args={[r, r, 0.06, 28]} />
-      <Material color={look === 'solid' ? '#fffaf0' : '#ffffff'} look={look} />
-    </mesh>
-  );
-}
-
-function Material({ color, look, emissive }: { color: string; look: Look; emissive?: string }) {
+/** Body material. Solid arms are glossy; ghost / target arms are see-through tints. */
+function Material({ color, look, emissive, metal = 0.1, rough = 0.32 }: { color: string; look: Look; emissive?: string; metal?: number; rough?: number }) {
   if (look === 'solid') {
-    return <meshStandardMaterial color={color} roughness={0.35} metalness={0} emissive={emissive ?? '#000'} emissiveIntensity={emissive ? 0.6 : 0} />;
+    return <meshStandardMaterial color={color} roughness={rough} metalness={metal} emissive={emissive ?? '#000'} emissiveIntensity={emissive ? 0.6 : 0} />;
   }
   return <meshStandardMaterial color={color} transparent opacity={look === 'target' ? 0.3 : 0.22} depthWrite={false} />;
 }
 
-function Link({ length, width, color, look }: { length: number; width: number; color: string; look: Look }) {
+/** The arm's signature lime glow (a tint of the arm's own color when it is a ghost). */
+function Glow({ look, color }: { look: Look; color: string }) {
+  if (look === 'solid') return <meshStandardMaterial color={LIME} emissive={LIME} emissiveIntensity={0.9} toneMapped={false} />;
+  return <Material color={color} look={look} />;
+}
+
+/** A servo motor: dark graphite block that lights up yellow when its joint is highlighted. */
+function Servo({ lit, look, size = [0.03, 0.036, 0.05] as [number, number, number] }: { lit: boolean; look: Look; size?: [number, number, number] }) {
   return (
-    <mesh position={[0, length / 2, 0]} castShadow={look === 'solid'}>
-      <capsuleGeometry args={[width * 0.55, Math.max(length - width * 1.1, 0.001), 8, 20]} />
-      <Material color={color} look={look} />
-    </mesh>
+    <Round size={size} radius={0.008} shadow={look === 'solid'}>
+      <Material color={lit ? '#ffd23f' : GRAPHITE} look={look} emissive={lit ? '#ffb300' : undefined} metal={0.5} rough={0.4} />
+    </Round>
+  );
+}
+
+/** A joint: graphite hub with a glowing lime ring on each face. */
+function Hinge({ look, r = 0.02, color }: { look: Look; r?: number; color: string }) {
+  return (
+    <group>
+      <mesh rotation={[Math.PI / 2, 0, 0]} castShadow={look === 'solid'}>
+        <cylinderGeometry args={[r, r, 0.056, 32]} />
+        <Material color={GRAPHITE} look={look} metal={0.6} rough={0.35} />
+      </mesh>
+      {[-1, 1].map((s) => (
+        <mesh key={s} position={[0, 0, s * 0.0285]}>
+          <torusGeometry args={[r * 0.78, 0.0024, 10, 40]} />
+          <Glow look={look} color={color} />
+        </mesh>
+      ))}
+    </group>
+  );
+}
+
+/** A tapered ceramic shell with a glowing lime stripe down each side. */
+function Link({ length, width, color, look }: { length: number; width: number; color: string; look: Look }) {
+  const depth = width * 0.9;
+  return (
+    <group position={[0, length / 2, 0]}>
+      <Round size={[width, length, depth]} radius={width * 0.38} shadow={look === 'solid'}>
+        <Material color={color} look={look} />
+      </Round>
+      {[-1, 1].map((s) => (
+        <group key={s} position={[0, 0, s * (depth / 2 + 0.0004)]}>
+          <Round size={[width * 0.16, length * 0.62, 0.0016]} radius={0.0008}>
+            <Glow look={look} color={color} />
+          </Round>
+        </group>
+      ))}
+    </group>
+  );
+}
+
+/** One finger: ceramic bar, dark rubber pad, glowing tip. */
+function Finger({ len, look, color, lit, inward }: { len: number; look: Look; color: string; lit: boolean; inward: 1 | -1 }) {
+  return (
+    <group>
+      <Round size={[0.011, len, 0.018]} radius={0.0045} shadow={look === 'solid'}>
+        <Material color={lit ? '#ffd23f' : color} look={look} emissive={lit ? '#ffb300' : undefined} />
+      </Round>
+      <group position={[inward * -0.0052, 0, 0]}>
+        <Round size={[0.0026, len * 0.72, 0.014]} radius={0.001}>
+          <Material color="#14160f" look={look} rough={0.9} />
+        </Round>
+      </group>
+      <mesh position={[0, len / 2 - 0.002, 0]}>
+        <boxGeometry args={[0.0115, 0.0045, 0.0185]} />
+        <Glow look={look} color={color} />
+      </mesh>
+    </group>
   );
 }
 
@@ -70,51 +120,62 @@ function ArmModel({ joints, color, look, highlight }: ArmProps) {
   const lit = (i: number) => look === 'solid' && highlight === i;
   const solid = look === 'solid';
   const jaw = (grip / 100) * 38 * D;
-  const accent = solid ? '#fffaf0' : color;
+  const fingerLen = HAND - WRIST - 0.002;
   return (
     <group>
-      {/* Round base */}
-      <mesh position={[0, 0.008, 0]} receiveShadow castShadow={solid}>
-        <cylinderGeometry args={[0.07, 0.078, 0.016, 48]} />
-        <Material color={accent} look={look} />
+      {/* Base: dark plinth, ceramic collar, glowing ring */}
+      <mesh position={[0, 0.006, 0]} receiveShadow castShadow={solid}>
+        <cylinderGeometry args={[0.082, 0.088, 0.012, 56]} />
+        <Material color={GRAPHITE} look={look} metal={0.5} rough={0.45} />
+      </mesh>
+      <mesh position={[0, 0.0125, 0]} rotation={[Math.PI / 2, 0, 0]}>
+        <torusGeometry args={[0.078, 0.0025, 10, 64]} />
+        <Glow look={look} color={color} />
+      </mesh>
+      <mesh position={[0, 0.02, 0]} castShadow={solid}>
+        <cylinderGeometry args={[0.062, 0.07, 0.016, 48]} />
+        <Material color={color} look={look} />
       </mesh>
       <group rotation={[0, pan * D, 0]}>
-        <mesh position={[0, 0.03, 0]} castShadow={solid}>
-          <cylinderGeometry args={[0.04, 0.05, 0.028, 40]} />
+        {/* Turret: ceramic cone with a graphite motor cap */}
+        <mesh position={[0, 0.04, 0]} castShadow={solid}>
+          <cylinderGeometry args={[0.042, 0.054, 0.028, 44]} />
           <Material color={color} look={look} />
         </mesh>
-        <mesh position={[0, 0.056, 0]} castShadow={solid}>
-          <cylinderGeometry args={[0.03, 0.04, 0.026, 40]} />
-          <Material color={lit(0) ? '#ffd23f' : '#3b4260'} look={look} emissive={lit(0) ? '#ffb300' : undefined} />
+        <mesh position={[0, 0.06, 0]} castShadow={solid}>
+          <cylinderGeometry args={[0.032, 0.038, 0.016, 40]} />
+          <Material color={lit(0) ? '#ffd23f' : GRAPHITE} look={look} emissive={lit(0) ? '#ffb300' : undefined} metal={0.5} rough={0.4} />
+        </mesh>
+        <mesh position={[0, 0.0685, 0]} rotation={[Math.PI / 2, 0, 0]}>
+          <torusGeometry args={[0.026, 0.002, 10, 40]} />
+          <Glow look={look} color={color} />
         </mesh>
         {/* Shoulder: 0 deg = upper arm straight up */}
         <group position={[0, SHOULDER_Y, 0]} rotation={[0, 0, -lift * D]}>
           <Servo lit={lit(1)} look={look} />
-          <Hinge look={look} r={0.022} />
-          <Link length={UPPER} width={0.03} color={color} look={look} />
+          <Hinge look={look} r={0.022} color={color} />
+          <Link length={UPPER} width={0.032} color={color} look={look} />
           {/* Elbow: 0 deg = forearm pointing forward */}
           <group position={[0, UPPER, 0]} rotation={[0, 0, (-90 - elbow) * D]}>
             <Servo lit={lit(2)} look={look} />
-            <Hinge look={look} r={0.02} />
-            <Link length={FORE} width={0.027} color={color} look={look} />
+            <Hinge look={look} r={0.02} color={color} />
+            <Link length={FORE} width={0.028} color={color} look={look} />
             <group position={[0, FORE, 0]} rotation={[0, 0, -wristFlex * D]}>
               <Servo lit={lit(3)} look={look} size={[0.028, 0.032, 0.046]} />
-              <Hinge look={look} r={0.017} />
+              <Hinge look={look} r={0.017} color={color} />
               <group rotation={[0, wristRoll * D, 0]}>
                 <group position={[0, WRIST * 0.5, 0]}>
                   <Servo lit={lit(4)} look={look} size={[0.034, 0.03, 0.034]} />
                 </group>
                 <Link length={WRIST} width={0.022} color={color} look={look} />
-                {/* Fixed jaw and moving jaw, with rounded finger tips */}
-                <mesh position={[-0.014, WRIST + 0.03, 0]} castShadow={solid}>
-                  <capsuleGeometry args={[0.0055, HAND - WRIST - 0.012, 6, 12]} />
-                  <Material color={accent} look={look} />
-                </mesh>
+                {/* Fixed finger and moving finger */}
+                <group position={[-0.014, WRIST + fingerLen / 2, 0]}>
+                  <Finger len={fingerLen} look={look} color={color} lit={false} inward={1} />
+                </group>
                 <group position={[0.014, WRIST, 0]} rotation={[0, 0, -jaw]}>
-                  <mesh position={[0, 0.03, 0]} castShadow={solid}>
-                    <capsuleGeometry args={[0.0055, HAND - WRIST - 0.012, 6, 12]} />
-                    <Material color={lit(5) ? '#ffd23f' : accent} look={look} />
-                  </mesh>
+                  <group position={[0, fingerLen / 2, 0]}>
+                    <Finger len={fingerLen} look={look} color={color} lit={lit(5)} inward={-1} />
+                  </group>
                 </group>
               </group>
             </group>
@@ -321,8 +382,9 @@ export function ArmPreview({
         shadow-camera-top={0.4}
         shadow-camera-bottom={-0.4}
       />
+      <directionalLight position={[-0.6, 0.5, -0.7]} intensity={1.1} color="#d3f36b" />
       <RadarFloor />
-      {follower && <ArmModel joints={follower} color="#f2a33a" look="solid" highlight={highlight} />}
+      {follower && <ArmModel joints={follower} color="#e9ecdf" look="solid" highlight={highlight} />}
       {follower && interact && <Handle joints={follower} {...interact} />}
       {showTarget && <ArmModel joints={target!} color="#22b573" look="target" />}
       {leader && <ArmModel joints={leader} color="#4f7cff" look="ghost" />}
