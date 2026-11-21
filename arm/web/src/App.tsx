@@ -17,7 +17,7 @@ import { AppContext, TeacherCall } from './teacher/TeacherCall';
 import { SettingsPanel } from './ui/SettingsPanel';
 import { TeachPanel } from './ui/TeachPanel';
 import { RunPanel, TrainPanel } from './ui/TrainPanel';
-import { useConfirm } from './ui/common';
+import { BouncyText, useConfirm } from './ui/common';
 import { Robot, useRobot } from './ui/useRobot';
 
 // Blockly is big, so it only loads when someone opens the Code tab.
@@ -198,7 +198,9 @@ export default function App() {
       </div>
 
       <header className="s-top">
-        <span className="s-brand">🦾 GRIP</span>
+        <span className="s-brand">
+          <span className="bouncy-logo" aria-hidden="true">🦾</span> <BouncyText text="GRIP" />
+        </span>
         <p className={`status ${moving ? 'moving' : ''}`} role="status" aria-live="polite">
           <span className="status-dot" aria-hidden="true" />
           {MODE_TEXT[telemetry.mode]}
