@@ -228,6 +228,46 @@ function Controls({ resetKey }: { resetKey: number }) {
   return null;
 }
 
+/** Glowing "Tron" grid floor like the Microduck simulator: tan lines, orange every 5th, fading with distance. */
+function GridFloor() {
+  const material = useMemo(
+    () =>
+      new THREE.ShaderMaterial({
+        transparent: true,
+        depthWrite: false,
+        uniforms: {
+          uCell: { value: 0.05 },
+          uSection: { value: 0.25 },
+          uCellColor: { value: new THREE.Color(0x8e8371) },
+          uSectionColor: { value: new THREE.Color(0xffb366) },
+        },
+        vertexShader: `varying vec3 vWorld;
+          void main() { vec4 w = modelMatrix * vec4(position, 1.0); vWorld = w.xyz; gl_Position = projectionMatrix * viewMatrix * w; }`,
+        fragmentShader: `varying vec3 vWorld;
+          uniform float uCell, uSection; uniform vec3 uCellColor, uSectionColor;
+          float line(vec2 p, float size, float w) {
+            vec2 g = abs(fract(p / size - 0.5) - 0.5) / fwidth(p / size);
+            return 1.0 - min(min(g.x, g.y) / w, 1.0);
+          }
+          void main() {
+            float c = line(vWorld.xz, uCell, 1.0);
+            float s = line(vWorld.xz, uSection, 1.6);
+            vec3 col = mix(uCellColor, uSectionColor, clamp(s, 0.0, 1.0));
+            float fade = 1.0 - smoothstep(0.4, 2.2, length(vWorld.xz));
+            float a = max(c * 0.45, s) * fade;
+            if (a < 0.01) discard;
+            gl_FragColor = vec4(col * (1.0 + s * 0.6), a);
+          }`,
+      }),
+    [],
+  );
+  return (
+    <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, -0.001, 0]} material={material}>
+      <planeGeometry args={[6, 6]} />
+    </mesh>
+  );
+}
+
 export function ArmPreview({
   follower,
   leader,
@@ -257,12 +297,12 @@ export function ArmPreview({
       aria-label={label}
       role="img"
     >
-      <color attach="background" args={['#dff1ff']} />
-      <fog attach="fog" args={['#dff1ff', 1.2, 2.6]} />
-      <hemisphereLight args={['#ffffff', '#cfe3f5', 1.6]} />
+      <color attach="background" args={['#08080c']} />
+      <fog attach="fog" args={['#08080c', 1.0, 2.4]} />
+      <hemisphereLight args={['#fff1e0', '#1a1410', 1.1]} />
       <directionalLight
         position={[0.5, 1.1, 0.6]}
-        intensity={1.8}
+        intensity={2}
         castShadow
         shadow-mapSize={[1024, 1024]}
         shadow-radius={6}
@@ -271,13 +311,10 @@ export function ArmPreview({
         shadow-camera-top={0.4}
         shadow-camera-bottom={-0.4}
       />
-      <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, -0.001, 0]} receiveShadow>
-        <circleGeometry args={[3, 64]} />
-        <meshStandardMaterial color="#f6fbff" emissive="#d4e8f8" emissiveIntensity={1} roughness={1} />
-      </mesh>
-      <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, 0, 0]} receiveShadow>
-        <circleGeometry args={[0.3, 64]} />
-        <meshStandardMaterial color="#ffd9a0" roughness={0.9} />
+      <GridFloor />
+      <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, 0.0005, 0]} receiveShadow>
+        <ringGeometry args={[0.29, 0.3, 64]} />
+        <meshBasicMaterial color="#ff7a2f" />
       </mesh>
       {follower && <ArmModel joints={follower} color="#f2a33a" look="solid" highlight={highlight} />}
       {follower && interact && <Handle joints={follower} {...interact} />}

@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import { MayaAvatar } from '../teacher/MayaAvatar';
 import { TeacherAvatar } from '../teacher/TeacherAvatar';
+import { BouncyText } from '../ui/common';
 import './studio.css';
 
 /**
@@ -63,7 +64,9 @@ export function Studio() {
   return (
     <div className="studio">
       <header className="studio-top">
-        <span className="studio-logo">🦾 GRIP Academy</span>
+        <span className="studio-logo">
+          <span className="bouncy-logo" aria-hidden="true">🦾</span> <BouncyText text="GRIP Academy" />
+        </span>
         <span className="studio-lesson">{title?.title ?? ''}</span>
       </header>
       <div className="studio-screen">

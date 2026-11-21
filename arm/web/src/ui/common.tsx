@@ -179,3 +179,21 @@ export function SelectableList({
     </>
   );
 }
+
+/** Brand text where every letter bounces in turn and glows through changing colors. */
+export function BouncyText({ text }: { text: string }) {
+  return (
+    <span className="bouncy" aria-label={text}>
+      {[...text].map((ch, i) => (
+        <span
+          key={i}
+          aria-hidden="true"
+          className="bouncy-ch"
+          style={{ animationDelay: `${i * 0.09}s, ${i * -0.35}s` }}
+        >
+          {ch === ' ' ? '\u00a0' : ch}
+        </span>
+      ))}
+    </span>
+  );
+}
