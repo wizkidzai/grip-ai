@@ -1,4 +1,4 @@
-import { Canvas, useThree } from '@react-three/fiber';
+import { Canvas, useFrame, useThree } from '@react-three/fiber';
 import { useEffect, useRef } from 'react';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
 import { useMemo, useState } from 'react';
@@ -228,39 +228,49 @@ function Controls({ resetKey }: { resetKey: number }) {
   return null;
 }
 
-/** Glowing "Tron" grid floor like the Microduck simulator: tan lines, orange every 5th, fading with distance. */
-function GridFloor() {
+/**
+ * Radar floor: a lime dot grid, soft range rings around the arm's reach, and a
+ * slow sweep that rotates like a radar. Same lime-on-olive look as the GRIP site.
+ */
+function RadarFloor() {
   const material = useMemo(
     () =>
       new THREE.ShaderMaterial({
         transparent: true,
         depthWrite: false,
-        uniforms: {
-          uCell: { value: 0.05 },
-          uSection: { value: 0.25 },
-          uCellColor: { value: new THREE.Color(0x8e8371) },
-          uSectionColor: { value: new THREE.Color(0xffb366) },
-        },
+        uniforms: { uTime: { value: 0 } },
         vertexShader: `varying vec3 vWorld;
           void main() { vec4 w = modelMatrix * vec4(position, 1.0); vWorld = w.xyz; gl_Position = projectionMatrix * viewMatrix * w; }`,
         fragmentShader: `varying vec3 vWorld;
-          uniform float uCell, uSection; uniform vec3 uCellColor, uSectionColor;
-          float line(vec2 p, float size, float w) {
-            vec2 g = abs(fract(p / size - 0.5) - 0.5) / fwidth(p / size);
-            return 1.0 - min(min(g.x, g.y) / w, 1.0);
-          }
+          uniform float uTime;
+          const vec3 LIME = vec3(0.827, 0.953, 0.42);
+          const vec3 BLUE = vec3(0.663, 0.847, 0.957);
           void main() {
-            float c = line(vWorld.xz, uCell, 1.0);
-            float s = line(vWorld.xz, uSection, 1.6);
-            vec3 col = mix(uCellColor, uSectionColor, clamp(s, 0.0, 1.0));
-            float fade = 1.0 - smoothstep(0.4, 2.2, length(vWorld.xz));
-            float a = max(c * 0.45, s) * fade;
+            vec2 p = vWorld.xz;
+            float r = length(p);
+            // dot grid every 4 cm
+            vec2 cell = fract(p / 0.04) - 0.5;
+            float dots = 1.0 - smoothstep(0.06, 0.12, length(cell));
+            // range rings every 10 cm, the reach ring (30 cm) is solid and brighter
+            float ring = abs(fract(r / 0.1 + 0.5) - 0.5) * 0.1;
+            float rings = 1.0 - smoothstep(0.0006, 0.0016, ring);
+            float reach = 1.0 - smoothstep(0.0012, 0.0030, abs(r - 0.3));
+            // rotating sweep with a fading tail
+            float ang = atan(p.y, p.x);
+            float d = mod(uTime * 0.7 - ang, 6.2831853);
+            float sweep = exp(-d * 2.2) * smoothstep(0.0, 0.12, d) * (1.0 - smoothstep(6.1, 6.28, d)) * (1.0 - smoothstep(0.3, 0.62, r)) * step(0.02, r);
+            float fade = 1.0 - smoothstep(0.35, 2.0, r);
+            float a = dots * 0.42 * fade + rings * 0.22 * fade + reach * 0.9 + sweep * 0.5;
             if (a < 0.01) discard;
-            gl_FragColor = vec4(col * (1.0 + s * 0.6), a);
+            vec3 col = mix(LIME, BLUE, smoothstep(0.3, 1.2, r));
+            gl_FragColor = vec4(col, min(a, 1.0));
           }`,
       }),
     [],
   );
+  useFrame(({ clock }) => {
+    material.uniforms.uTime.value = clock.getElapsedTime();
+  });
   return (
     <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, -0.001, 0]} material={material}>
       <planeGeometry args={[6, 6]} />
@@ -297,8 +307,8 @@ export function ArmPreview({
       aria-label={label}
       role="img"
     >
-      <color attach="background" args={['#08080c']} />
-      <fog attach="fog" args={['#08080c', 1.0, 2.4]} />
+      <color attach="background" args={['#0d100b']} />
+      <fog attach="fog" args={['#0d100b', 1.0, 2.4]} />
       <hemisphereLight args={['#fff1e0', '#1a1410', 1.1]} />
       <directionalLight
         position={[0.5, 1.1, 0.6]}
@@ -311,11 +321,7 @@ export function ArmPreview({
         shadow-camera-top={0.4}
         shadow-camera-bottom={-0.4}
       />
-      <GridFloor />
-      <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, 0.0005, 0]} receiveShadow>
-        <ringGeometry args={[0.29, 0.3, 64]} />
-        <meshBasicMaterial color="#ff7a2f" />
-      </mesh>
+      <RadarFloor />
       {follower && <ArmModel joints={follower} color="#f2a33a" look="solid" highlight={highlight} />}
       {follower && interact && <Handle joints={follower} {...interact} />}
       {showTarget && <ArmModel joints={target!} color="#22b573" look="target" />}
