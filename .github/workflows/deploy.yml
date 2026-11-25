@@ -1,5 +1,6 @@
-# Builds the arm app (arm/web) and publishes it to GitHub Pages at
-# https://wizkidzai.github.io/grip-ai/arm/
+# Builds the arm app (arm/web) and the outreach website (girls-in-robotics) and publishes
+# them to GitHub Pages at https://wizkidzai.github.io/grip-ai/arm/ and
+# https://wizkidzai.github.io/grip-ai/girls-in-robotics/
 # Repo settings → Pages → Source must be "GitHub Actions".
 name: Deploy to GitHub Pages
 
@@ -26,7 +27,9 @@ jobs:
         with:
           node-version-file: .nvmrc
           cache: npm
-          cache-dependency-path: arm/web/package-lock.json
+          cache-dependency-path: |
+            arm/web/package-lock.json
+            girls-in-robotics/package-lock.json
       - run: npm ci
         working-directory: arm/web
       - run: npm test
@@ -38,6 +41,11 @@ jobs:
         working-directory: arm/web
         env:
           GRIP_BASE: /${{ github.event.repository.name }}/arm/
+      # The outreach website lives under /grip-ai/girls-in-robotics/ (its base is in its vite.config.js).
+      - run: npm ci
+        working-directory: girls-in-robotics
+      - run: npx vite build --outDir ../site/girls-in-robotics --emptyOutDir
+        working-directory: girls-in-robotics
       - uses: actions/configure-pages@v5
       - uses: actions/upload-pages-artifact@v4
         with:
