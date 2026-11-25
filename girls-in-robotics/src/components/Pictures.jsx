@@ -8,7 +8,7 @@ export function GirlAtLaptop() {
       role="img"
       aria-label="Drawing of a girl with a ponytail working on a laptop. A little robot arm sits on her desk."
     >
-      <rect width="320" height="240" rx="28" fill="#e4f7ec" />
+      <rect width="320" height="240" rx="28" fill="#20241b" />
       <rect x="40" y="200" width="14" height="32" fill="#dcae7d" />
       <rect x="266" y="200" width="14" height="32" fill="#dcae7d" />
       <rect x="20" y="190" width="280" height="16" rx="8" fill="#dcae7d" />
@@ -36,9 +36,9 @@ export function ArmPicture() {
       role="img"
       aria-label="Drawing of our robot arm: a base, two long arm parts with round joints, and a gripper that opens and closes."
     >
-      <rect width="320" height="240" rx="28" fill="#e4f7ec" />
-      <ellipse cx="160" cy="208" rx="124" ry="22" fill="none" stroke="#a9e3bf" strokeWidth="4" />
-      <ellipse cx="160" cy="208" rx="72" ry="12" fill="none" stroke="#a9e3bf" strokeWidth="4" />
+      <rect width="320" height="240" rx="28" fill="#20241b" />
+      <ellipse cx="160" cy="208" rx="124" ry="22" fill="none" stroke="#d3f36b" strokeOpacity="0.45" strokeWidth="4" />
+      <ellipse cx="160" cy="208" rx="72" ry="12" fill="none" stroke="#d3f36b" strokeOpacity="0.45" strokeWidth="4" />
       <rect x="116" y="190" width="88" height="22" rx="10" fill="#b9c4be" />
       <rect x="116" y="184" width="88" height="22" rx="10" fill="#fff" />
       <rect x="148" y="148" width="24" height="42" rx="9" fill="#a98fe8" />

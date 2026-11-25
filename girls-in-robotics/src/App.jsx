@@ -48,8 +48,7 @@ export default function App() {
         <p>GRiP: Girls in Robotics and Physical AI</p>
         <p className="credits">
           Emoji pictures:{' '}
-          <a href={`${import.meta.env.BASE_URL}licenses/noto-emoji-OFL.txt`}>Noto Emoji by Google</a>. Font:{' '}
-          <a href={`${import.meta.env.BASE_URL}licenses/fredoka-OFL.txt`}>Fredoka</a>.
+          <a href={`${import.meta.env.BASE_URL}licenses/noto-emoji-OFL.txt`}>Noto Emoji by Google</a>.
         </p>
       </footer>
     </div>
