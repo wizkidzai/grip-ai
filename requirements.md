@@ -33,8 +33,9 @@ Bug fixes, tweaks, and small look-and-feel changes don't go here.
     girl at a laptop (a drawing, because we don't use photos of faces).
   - **GRiP AI Simulator:** a picture of the arm, a button that opens our arm simulator, and a
     drop-down about the SO-101 and how we built it.
-  - **Photos:** "Coming soon!" and an Upload button. The photo you pick shows on the page. It stays
-    on your computer and is never sent anywhere.
+  - **Photos:** a gallery of 13 photos from our events that visitors scroll through (swipe, or use
+    the arrow buttons). No upload button. These photos show faces: Prisha said a grown-up and the
+    parents OK'd them, and the pull request asks the reviewing grown-up to confirm (rule 3).
   - **Game:** "Coming soon!" for now. The real world-tour game gets planned on its own, next.
   - **Contact us:** a button that opens our Google Form (student leader or mentor sign-up), and
     "Learn more about our mission!" with a link to our mission website.
@@ -47,7 +48,7 @@ Bug fixes, tweaks, and small look-and-feel changes don't go here.
   2. They click **About our topic**, read about the problem, and look at the graph going down.
   3. They click **Our progress** and see how far our goals have come.
   4. They click **GRiP AI Simulator**, open the arm simulator, and read about the SO-101 in the drop-down.
-  5. They click **Photos** and pick a photo, and it shows on the page.
+  5. They click **Photos** and scroll through the photos with the arrow buttons or by swiping.
   6. They click **Game** and see that it's coming soon.
   7. They click **Contact us**, then open the Google Form to sign up as a student leader or mentor,
      or follow the link to learn more about our mission.
