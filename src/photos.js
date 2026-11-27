@@ -1,7 +1,7 @@
 import armDemo from './photos/arm-demo.jpg'
 import armPresentation from './photos/arm-presentation.jpg'
-import gameTable1 from './photos/game-table-1.jpg'
-import gameTable2 from './photos/game-table-2.jpg'
+import roboticsTable1 from './photos/robotics-table-1.jpg'
+import roboticsTable2 from './photos/robotics-table-2.jpg'
 import laserTag from './photos/laser-tag.jpg'
 import labTour1 from './photos/lab-tour-1.jpg'
 import labTour2 from './photos/lab-tour-2.jpg'
@@ -18,9 +18,9 @@ export const photos = [
   { src: teamPresenting1, alt: 'Team members standing at the front of a room, presenting to a seated audience.' },
   { src: armPresentation, alt: 'Kids presenting our robot arm to adults in a meeting room, with the simulator on a big screen.' },
   { src: armDemo, alt: 'A girl showing our robot arm to younger kids at a fair.' },
-  { src: gameTable1, alt: 'Two girls and a boy working with a small robot on a colorful game table.' },
-  { src: gameTable2, alt: 'Two girls at a game table with a small robot, while adults watch.' },
-  { src: mentorAndRobot, alt: 'A mentor and a boy looking at a small LEGO robot on a game mat.' },
+  { src: roboticsTable1, alt: 'Two girls and a boy working with a small robot on a colorful robotics table.' },
+  { src: roboticsTable2, alt: 'Two girls at a robotics table with a small robot, while adults watch.' },
+  { src: mentorAndRobot, alt: 'A mentor and a boy looking at a small LEGO robot on a robotics mat.' },
   { src: teamPresenting2, alt: 'Team members lined up beside their robot on a table, ready for questions.' },
   { src: outdoorBooth, alt: 'Kids talking at an outdoor booth with project posters under a tent.' },
   { src: labTour1, alt: 'Kids on a lab tour listening to a scientist beside shelves of jars.' },

@@ -58,3 +58,27 @@ Bug fixes, tweaks, and small look-and-feel changes don't go here.
   - [x] I open the website, see 6 buttons, and each one opens the right page.
   - [x] On every page, the menu bar takes me to any other page, or home.
   - [x] On Contact us, the button opens our Google Form.
+
+## One-page outreach website
+- **Status:** Done
+- **Asked by:** Prisha, 2026-11-27
+- **Who it's for:** Girls of all ages.
+- **Problem or need:** Finding the sections and moving between them should be easy, including on a phone.
+- **Why they have it:** Prisha's coach and teammates noticed that visitors have to open separate pages
+  to see the sections.
+- **Our idea:** A mobile-friendly, deep-green, futuristic page like the arm simulator. Visitors scroll
+  through Our Mission, Our Progress, Try Our GRiP AI Arm Sim, Gallery, and Join Us in that order.
+  Remove game references. The gallery scrolls sideways by swiping, without buttons.
+- **Other ideas we talked about:**
+  - Keep separate pages: visitors would still need to open each one, so we chose one scrolling page.
+  - Open the arm simulator in a new tab: we chose the same tab, using Back to return.
+- **User flow:**
+  1. The visitor opens the website and reads Our Mission.
+  2. They scroll down to Our Progress and then Try Our GRiP AI Arm Sim.
+  3. They open the arm simulator in the same tab and use Back to return.
+  4. They swipe sideways through the Gallery.
+  5. They scroll to Join Us and find the sign-up link.
+- **Done when:**
+  - [x] The five sections appear in order while scrolling, including on a phone.
+  - [x] The gallery scrolls sideways without photo buttons.
+  - [x] The arm link opens the simulator in the same tab, and Back returns to the website.
