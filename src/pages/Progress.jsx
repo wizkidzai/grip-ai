@@ -8,13 +8,13 @@ const goals = [
 export default function Progress() {
   return (
     <article>
-      <h1>Our progress</h1>
+      <h2 id="progress-title" className="section-title">Our Progress</h2>
       <div className="two-col flip">
         <figure className="picture">
           <GirlAtLaptop />
         </figure>
         <section className="card">
-          <h2>Our goals</h2>
+          <h3>Our goals</h3>
           {goals.map((g) => (
             <div key={g.id} className={`goal ${g.color}`}>
               <div className="goal-head">

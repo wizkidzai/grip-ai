@@ -1,45 +1,39 @@
-import { useEffect, useRef, useState } from 'react'
+import { useEffect } from 'react'
 import Emoji from './components/Emoji.jsx'
 import Nav from './components/Nav.jsx'
-import Home from './pages/Home.jsx'
 import { pages } from './pages.js'
 
-// The part of the address after "#/" picks the page, like ".../grip-ai/#/contact"
-function readPage() {
-  return window.location.hash.replace(/^#\/?/, '')
-}
-
 export default function App() {
-  const [pageId, setPageId] = useState(readPage)
-  const main = useRef(null)
-  const firstLook = useRef(true)
-
   useEffect(() => {
-    const onChange = () => setPageId(readPage())
-    window.addEventListener('hashchange', onChange)
-    return () => window.removeEventListener('hashchange', onChange)
-  }, [])
-
-  const page = pages.find((p) => p.id === pageId)
-
-  useEffect(() => {
-    document.title = page ? `${page.label} | GRiP AI` : 'GRiP AI: Girls in Robotics and Physical AI'
-    // After the first page, go to the top and tell screen readers the page changed.
-    if (firstLook.current) {
-      firstLook.current = false
-      return
+    function followOldLink() {
+      if (!window.location.hash.startsWith('#/')) return
+      const id = window.location.hash.slice(2)
+      const section = document.getElementById(id)
+      const hash = section ? `#${id}` : ''
+      window.history.replaceState(null, '', `${window.location.pathname}${window.location.search}${hash}`)
+      section?.scrollIntoView()
     }
-    window.scrollTo(0, 0)
-    main.current?.focus()
-  }, [page])
+
+    followOldLink()
+    window.addEventListener('hashchange', followOldLink)
+    return () => window.removeEventListener('hashchange', followOldLink)
+  }, [])
 
   return (
     <div className="site">
+      <a className="skip" href="#main">Skip to content</a>
       <header className="top">
-        <Nav current={page ? page.id : ''} />
+        <div className="top-inner">
+          <a className="brand" href="#about" aria-label="GRiP AI, Our Mission">GRiP AI</a>
+          <Nav />
+        </div>
       </header>
-      <main id="main" ref={main} tabIndex={-1} className={page ? page.color : undefined}>
-        {page ? <page.Component /> : <Home />}
+      <main id="main">
+        {pages.map((page) => (
+          <section className="page-section" id={page.id} key={page.id} aria-labelledby={`${page.id}-title`}>
+            <page.Component />
+          </section>
+        ))}
       </main>
       <footer>
         <p>

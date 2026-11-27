@@ -4,7 +4,7 @@ import { ARM_SIMULATOR } from '../links.js'
 export default function Simulator() {
   return (
     <article>
-      <h1>GRiP AI Simulator</h1>
+      <h2 id="simulator-title" className="section-title">Try Our GRiP AI Arm Sim</h2>
       <p className="lead">
         A simulator is a pretend robot on a screen. It moves like the real one, so you can try things
         safely.
@@ -13,14 +13,13 @@ export default function Simulator() {
         <figure className="card picture">
           <ArmPicture />
           <figcaption>
-            <a className="button" href={ARM_SIMULATOR} target="_blank" rel="noopener noreferrer">
+            <a className="button" href={ARM_SIMULATOR}>
               Open the arm simulator
-              <span className="sr-only"> (opens in a new tab)</span>
             </a>
           </figcaption>
         </figure>
         <section className="card">
-          <h2>All about our arm</h2>
+          <h3>All about our arm</h3>
           <details open>
             <summary>What is the SO-101?</summary>
             <p>
