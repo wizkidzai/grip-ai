@@ -21,7 +21,7 @@ Bug fixes, tweaks, and small look-and-feel changes don't go here.
   engineers are women. Source: [Society of Women Engineers, U.S. Fast Facts 2026](https://swe.org/wp-content/uploads/2026/10/SWE-US-FastFacts-2026-2.pdf).
   (We first wrote 24% for college, but this source says 25.5%, so we use the source's number.)
 - **Our idea:** A fun outreach website by the Electrified Entrepreneurs, with its own
-  link: https://wizkidzai.github.io/grip-ai/girls-in-robotics/. It looks like our arm simulator: dark
+  link: https://wizkidzai.github.io/grip-ai/. It looks like our arm simulator: dark
   olive with lime and orange, and glowing bouncing title letters. A
   menu bar on every page:
   - **Home:** "Electrified Entrepreneurs", "GRiP AI", and 6 big round 3D buttons, in this order and

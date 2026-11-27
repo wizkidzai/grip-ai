@@ -4,7 +4,7 @@ import Nav from './components/Nav.jsx'
 import Home from './pages/Home.jsx'
 import { pages } from './pages.js'
 
-// The part of the address after "#/" picks the page, like ".../girls-in-robotics/#/contact"
+// The part of the address after "#/" picks the page, like ".../grip-ai/#/contact"
 function readPage() {
   return window.location.hash.replace(/^#\/?/, '')
 }
